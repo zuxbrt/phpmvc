@@ -6,6 +6,8 @@ class ErrorResponse
 {
     /**
      * Return prettier response in browser 
+     * @param string $type (error/warning/info)
+     * @param string $message
      * - wrap it in styled HTML instead of simple php's die();
      */
     public function returnMessage($type, $message)

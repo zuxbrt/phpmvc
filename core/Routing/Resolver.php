@@ -2,10 +2,17 @@
 
 namespace Core;
 
+use Core\Error\ErrorResponse;
 use ReflectionClass;
 
 class Resolver
 {
+    public $errorHandler;
+
+    public function __construct()
+    {
+        $this->errorHandler = new ErrorResponse();
+    }
 
     /**
      * Get requested resource from url.
@@ -66,7 +73,10 @@ class Resolver
                     }
                 }
             }
+
+            $this->errorHandler->returnMessage('warning', 'Controller for resource "' . $requested_resource .'" not found');
         } else {
+            $this->errorHandler->returnMessage('info', 'No controllers found.');
             return null;
         }
     }
