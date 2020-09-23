@@ -3,7 +3,7 @@
 use Config\Config;
 use Core\Request;
 
-class App
+class Kernel
 {
     /**
      * Check if configuration file is there.
