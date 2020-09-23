@@ -13,7 +13,9 @@ class Autoloader
             include '../config/Config.php';
             
             include '../core/Request.php';
+            include '../core/Response.php';
             include '../core/Controller.php';
+            
             include '../core/Database/Connection.php';
             include '../core/Error/ErrorResponse.php';
             include '../core/Routing/Resolver.php';

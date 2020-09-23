@@ -2,6 +2,7 @@
 
 use Config\Config;
 use Core\Request;
+use Core\Response;
 
 class Kernel
 {
@@ -27,16 +28,17 @@ class Kernel
      */
     public function run()
     {
-        // hile output buffering is active, no output is sent from the script 
+        // while output buffering is active, no output is sent from the script 
         // (other than headers), instead the output is stored in an internal buffer.
         ob_start();
 
         $request = new Request();
-        $response = $request->capture();
+        $response = new Response();
+
 
         // This will send the contents of the output buffer (if any). 
         ob_flush();
-        return $response;
+        return $response->send($request->capture());
     }
 }
 

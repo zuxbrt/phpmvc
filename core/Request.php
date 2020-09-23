@@ -26,14 +26,13 @@ class Request
         $accepted_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
         $user_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 
-        die($this->resolver->resolve(
+        return $this->resolver->resolve(
             $requested_url, 
             $request_method, 
             $request_parameters
-        ));
-
-        // used for api-like response
-        header("Content-Type: application/json; charset=UTF-8");
-        echo json_encode($_SERVER);
+        );
+        
+        // header("Content-Type: application/json; charset=UTF-8");
+        // echo json_encode($_SERVER);
     }
 }
