@@ -2,6 +2,8 @@
 
 namespace Core\Error;
 
+use Config\Config;
+
 class ErrorResponse
 {
     /**
@@ -11,9 +13,9 @@ class ErrorResponse
      * - wrap it in styled HTML instead of simple php's die();
      */
     public function returnMessage($type, $message)
-    {
-        $debug = false;
-        
+    {   
+        $config = new Config();
+        $debug = $config->is_in_debug_mode();
         if($debug){
             switch ($type) {
                 case 'error':

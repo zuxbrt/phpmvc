@@ -58,7 +58,7 @@ class Config
             echo 'Missing .config file in project root.';
             return false;
         }
-        return;
+        return true;
     }
 
 
@@ -69,10 +69,12 @@ class Config
      */
     public function is_in_debug_mode()
     {
-        // ini_set('display_errors', 1); 
-        // ini_set('display_startup_errors', 1); 
-        // error_reporting(E_ALL);
-        return true;
+        if(isset($this->config_array['DEBUG_MODE'])){
+            if(strtolower($this->config_array['DEBUG_MODE']) == 'true'){
+                return true;
+            }
+        }
+        return false;
     }
 
 
