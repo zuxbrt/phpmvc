@@ -25,34 +25,37 @@ class Resolver
         if($requested_resource){
 
             $controller = $this->findControllerFromResource($requested_resource);
-            $method     = $this->getControllerMethod($uri, $requested_resource);
 
-            if($method){
+            if($controller){
+                $method     = $this->getControllerMethod($uri, $requested_resource);
+                if($method){
 
-                $controller         = $controller->newInstanceWithoutConstructor();
-                $method_exists      = method_exists($controller, $method);
+                    $controller         = $controller->newInstanceWithoutConstructor();
+                    $method_exists      = method_exists($controller, $method);
 
-                if($method_exists){
-                    $reflectionMethod   = new ReflectionMethod($controller, $method);
-                    $has_parameters     = false;
+                    if($method_exists){
+                        $reflectionMethod   = new ReflectionMethod($controller, $method);
+                        $has_parameters     = false;
 
-                    $reflection_method_parameters = $reflectionMethod->getParameters();
-                    if(!empty($reflection_method_parameters)){
-                        $has_parameters = true;
+                        $reflection_method_parameters = $reflectionMethod->getParameters();
+                        if(!empty($reflection_method_parameters)){
+                            $has_parameters = true;
+                        }
+                        // extract parameters
+                        $method_parameters = $this->getParameters($reflection_method_parameters, $uri, $arguments);
+
+                        if($has_parameters){
+                            return $controller->$method($method_parameters);
+                        }
+                        return $controller->$method();
+                    } else {
+                        return $this->errorHandler->returnMessage('error', 'Method *' . $method . '* not found in ' . get_class($controller));
                     }
-                    // extract parameters
-                    $method_parameters = $this->getParameters($reflection_method_parameters, $uri, $arguments);
-
-                    if($has_parameters){
-                        return $controller->$method($method_parameters);
-                    }
-                    return $controller->$method();
-                } else {
-                    return $this->errorHandler->returnMessage('error', 'Method *' . $method . '* not found in ' . get_class($controller));
                 }
-            }
 
-            return $this->errorHandler->returnMessage('error', 'Method not provided for resource in url: ' . $uri);
+                return $this->errorHandler->returnMessage('error', 'Method not provided for resource in url: ' . $uri);
+            }
+            return $this->errorHandler->returnMessage('error', 'Controller for requested resource: ' . $requested_resource . ' not found.');
         }
         return '/';
     }
@@ -113,7 +116,7 @@ class Resolver
                 }
             }
 
-            return $this->errorHandler->returnMessage('error', 'Controller for resource "' . $requested_resource .'" not found');
+            return null;
         } else {
             return $this->errorHandler->returnMessage('info', 'No controllers found.');
         }
