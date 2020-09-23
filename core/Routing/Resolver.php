@@ -179,6 +179,11 @@ class Resolver
             $method_param_pos = strpos($uri, '?');
             $url = substr($uri, $method_param_pos);
             $separated = explode('?', $url);
+
+            if(!$method_param_pos){
+                return $this->errorHandler->returnMessage('error', 'Missing ? argument for paremeter in url: ' . $uri);
+            }
+
             $param_val = isset($separated[1]) ? $separated[1] : null;
 
             if(count($separated) < 2){
