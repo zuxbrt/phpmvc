@@ -3,11 +3,12 @@
 namespace src\Controllers;
 
 use Controller;
+use Core\Response;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        return '';
+        return Response::send('Hello!', 200);
     }
 }

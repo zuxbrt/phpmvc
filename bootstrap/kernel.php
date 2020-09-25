@@ -38,7 +38,7 @@ class Kernel
 
         // This will send the contents of the output buffer (if any). 
         ob_flush();
-        return $response->send($request->capture());
+        return $request->capture();
     }
 }
 

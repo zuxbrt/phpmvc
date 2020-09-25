@@ -49,13 +49,15 @@ class Resolver
                         }
                         return $controller->$method();
                     } else {
-                        return $this->errorHandler->returnMessage('error', 'Method *' . $method . '* not found in ' . get_class($controller));
+                        return Response::send('Method ' . $method . '() not found in ' . get_class($controller) , 400);
+                        // return $this->errorHandler->returnMessage('error', 'Method *' . $method . '* not found in ' . get_class($controller));
                     }
                 }
 
-                return $this->errorHandler->returnMessage('error', 'Method not provided for resource in url: ' . $uri);
+                return Response::send('Method not provided for resource in url: ' . $uri, 404);
             }
-            return $this->errorHandler->returnMessage('error', 'Controller for requested resource: ' . $requested_resource . ' not found.');
+
+            return Response::send('Controller for requested resource - ' . $requested_resource . ' - not found.', 404);
         }
         return '/';
     }
@@ -82,7 +84,8 @@ class Resolver
         }
         
         if(empty($url_parts)){
-            return $this->errorHandler->returnMessage('error', 'Bad url - ' . $uri);
+            return Response::send('Bad url - ', 400);
+            // return $this->errorHandler->returnMessage('error',  $uri);
         }
 
         return $url_parts[0];
@@ -118,7 +121,8 @@ class Resolver
 
             return null;
         } else {
-            return $this->errorHandler->returnMessage('info', 'No controllers found.');
+            return Response::send('No controllers found.', 500);
+            // return $this->errorHandler->returnMessage('info', 'No controllers found.');
         }
     }
 
@@ -184,20 +188,24 @@ class Resolver
             $separated = explode('?', $url);
 
             if(!$method_param_pos){
-                return $this->errorHandler->returnMessage('error', 'Missing ? argument for paremeter in url: ' . $uri);
+                return Response::send('Missing ? argument for parameter in url: ' .  $uri, 400);
+                // return $this->errorHandler->returnMessage('error', '' . $uri);
             }
 
             $param_val = isset($separated[1]) ? $separated[1] : null;
 
             if(count($separated) < 2){
-                return $this->errorHandler->returnMessage('error', 'Missing parameter for url: ' . $uri);
+                return Response::send('Missing parameter for url:' .  $uri, 400);
+                //return $this->errorHandler->returnMessage('error', ' ' . $uri);
             }
             
             if(!$param_val){
-                return $this->errorHandler->returnMessage('error', 'Bad parameter in url: ' . $uri);
+                return Response::send('Bad parameter in url: ' .  $uri, 400);
+                // return $this->errorHandler->returnMessage('error', '' . $uri);
             }
             if(!is_numeric($param_val)){
-                return $this->errorHandler->returnMessage('error', 'Non numeric value as parameter: ' . $param_names[0] . ' in url - ' . $uri);
+                return Response::send('Non numeric value as parameter: ' . $param_names[0] . ' in url - ' . $uri, 400);
+                // return $this->errorHandler->returnMessage('error');
             }
             return $param_val;
         }

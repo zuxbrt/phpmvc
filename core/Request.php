@@ -24,7 +24,7 @@ class Request
         $acceptable_headers = $_SERVER['HTTP_ACCEPT'];
         $accepted_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
         $accepted_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-        $user_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $user_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : null;
 
         return $this->resolver->resolve(
             $requested_url, 

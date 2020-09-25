@@ -2,15 +2,25 @@
 
 namespace Core;
 
+use Core\Response\Status;
+
 class Response
 {
-    public function send($data)
+    /**
+     * Return response.
+     * 
+     * @param $data
+     * @param $status
+     */
+    public static function send($data, int $status)
     {
+        // set headers for json response
         header("Content-Type: application/json; charset=UTF-8");
         
+        // echo response
         echo json_encode([
-            'status' => 200,
-            'message' => 'Success',
+            'status' => $status,
+            'message' => Status::getMessage($status),
             'data' => $data
         ]);
     }
