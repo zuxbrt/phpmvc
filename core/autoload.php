@@ -10,7 +10,7 @@ class Autoloader
 
             include '../bootstrap/kernel.php';
 
-            include '../config/Config.php';
+            include '../core/Config.php';
             
             include '../core/Request.php';
             include '../core/Response.php';
