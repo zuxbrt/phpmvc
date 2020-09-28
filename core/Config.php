@@ -2,7 +2,7 @@
 
 namespace Config;
 
-use Core\Response;
+use Core\Error\ErrorResponse;
 
 /**
  * This class is used for retrieving parameters used accross
@@ -18,6 +18,7 @@ class Config
      */
     public function __construct()
     {
+        $this->errorHelper = new ErrorResponse();
         $config_exists = file_exists(__DIR__.'/../.config');
 
         if(!$config_exists){
@@ -28,14 +29,14 @@ class Config
             $config_file_contents = explode("\n", $config_file);
 
             if(count($config_file_contents) == 1){
-                return Response::send('Bad/empty config file. Check .config_example located in project root.', 500);
+                die('Bad/empty config file. Check .config_example located in project root.');
             }
 
             foreach($config_file_contents as $config_file_row){
                 
                 $name_val = explode('=', $config_file_row);
                 if(count($name_val) < 1){
-                    return response::send('Missing .config key value. Check .config_example', 500);
+                    die('Missing .config key value. Check .config_example');
                 }
 
                 if(isset($name_val[0]) && isset($name_val[1])){
