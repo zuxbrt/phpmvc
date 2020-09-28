@@ -15,6 +15,7 @@ class Autoloader
             include '../core/Request.php';
             include '../core/Response.php';
             include '../core/Controller.php';
+            include '../core/Model.php';
             
             include '../core/Database/Connection.php';
             include '../core/Helpers/Status.php';

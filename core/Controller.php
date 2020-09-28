@@ -11,11 +11,6 @@ abstract class Controller
     {
         $this->errorHandler = new ErrorResponse();
     }
-    // public function connect()
-    // {
-    //     $dbconnect  = new Connection();
-    //     $connection = $dbconnect->connect();
-    // }
 }
 
 ?>

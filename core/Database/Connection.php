@@ -4,37 +4,22 @@ namespace Core\Database;
 
 use Config\Config;
 use Core\Error\ErrorResponse;
+use Core\Response;
 use Exception;
 use PDO;
 
-class Connection
+abstract class Connection
 {
-    protected $connectionType;
-    protected $host;
-    protected $port;
-    protected $database;
-    protected $username;
-    protected $password;
-    protected $dsn;
+    private static $connectionType;
+    private static $host;
+    private static $port;
+    private static $database;
+    private static $username;
+    private static $password;
+    private static $dsn;
     public $errorHandler;
 
-    /**
-     * Set database connection variables from config.
-     */
-    public function __construct()
-    {
-        $this->errorHandler = new ErrorResponse();
-
-        $config = new Config();
-
-        $this->connectionType   = $config->getDBConf('DATABASE_CONNECTION');
-        $this->host             = $config->getDBConf('DATABASE_HOST');
-        $this->port             = $config->getDBConf('DATABASE_PORT');
-        $this->database         = $config->getDBConf('DATABASE_NAME');
-        $this->username         = $config->getDBConf('DATABASE_USERNAME');
-        $this->password         = $config->getDBConf('DATABASE_PASSWORD');
-        $this->dsn              = $config->getDBConf('DATABASE_SOCKET_DSN');
-    }
+    public static $_connection;
 
     /**
      * Connect to database.
@@ -42,26 +27,31 @@ class Connection
      * Defined connection type for mysql for now.
      * TODO sqlite (and others)
      */
-    public function connect()
+    public static function connect()
     {
-        switch ($this->connectionType) {
-            case 'mysql':
-                try {
-                    if($this->dsn !== null){
-                        $connect = new PDO("mysql:unix_socket=$this->dsn; mysql:host=$this->host; dbname=$this->database", $this->username, $this->password);
-                    } else {
-                        $connect = new PDO("mysql:host=$this->host; dbname=$this->database", $this->username, $this->password);  
-                    }
-                    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-                    return $connect;
-                } catch (Exception $e) {
-                    return $this->errorHandler->returnMessage('error', $e->getMessage());
-                }
-            break;
-            
-            default:
-                return $this->errorHandler->returnMessage('info', 'Work in progress for ' . $this->connectionType . ' database type.');
-                break;
+        $config = new Config();
+
+        self::$connectionType   = $config->getDBConf('DATABASE_CONNECTION');
+        self::$host             = $config->getDBConf('DATABASE_HOST');
+        self::$port             = $config->getDBConf('DATABASE_PORT');
+        self::$database         = $config->getDBConf('DATABASE_NAME');
+        self::$username         = $config->getDBConf('DATABASE_USERNAME');
+        self::$password         = $config->getDBConf('DATABASE_PASSWORD');
+        self::$dsn              = $config->getDBConf('DATABASE_SOCKET_DSN');
+        
+        if (!self::$_connection) {
+            try {
+                //if(self::$dsn !== null){
+                    self::$_connection = @new PDO("mysql:unix_socket=".self::$dsn."; mysql:host=".self::$host."; dbname=".self::$database, self::$username, self::$password);
+                //} else {
+                    //$connect = @new PDO("mysql:host=$this->host; dbname=$this->database", $this->username, $this->password);  
+                //}
+                self::$_connection -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+            } catch (Exception $e) {
+                return Response::send($e->getMessage(), 500);
+            }
+
         }
+        return self::$_connection;
     }
 }

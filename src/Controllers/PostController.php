@@ -4,13 +4,15 @@ namespace src\Controllers;
 
 use Controller;
 use Core\Response;
+use Post;
 
-class ExampleController extends Controller
+class PostController extends Controller
 {
     public function show($id)
     {
         if($id){
-            return Response::send("Display data for resource by id: ". $id, 200);
+            $post = new Post();
+            return $post->get($id);
         }
     }
 }
