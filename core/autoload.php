@@ -18,8 +18,9 @@ class Autoloader
             include '../core/Model.php';
             
             include '../core/Database/Connection.php';
+            include '../core/Database/Mapper.php';
+
             include '../core/Helpers/Status.php';
-            include '../core/Error/ErrorResponse.php';
             include '../core/Routing/Resolver.php';
 
             $paths = ['../src/Controllers', '../src/Models', '../src/Views'];

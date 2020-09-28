@@ -2,8 +2,6 @@
 
 namespace Config;
 
-use Core\Error\ErrorResponse;
-
 /**
  * This class is used for retrieving parameters used accross
  * the application - example: database connection
@@ -18,7 +16,6 @@ class Config
      */
     public function __construct()
     {
-        $this->errorHelper = new ErrorResponse();
         $config_exists = file_exists(__DIR__.'/../.config');
 
         if(!$config_exists){
@@ -88,7 +85,7 @@ class Config
             if($param !== 'DATABASE_SOCKET_DSN'){
                 if($this->config_array[$param] == null){
                     $msg = 'Missing ' . $param . ' value in config file.';
-                    return $this->errorHelper->returnMessage('error', $msg);
+                    die($msg);
                 }
             }
             return $this->config_array[$param];

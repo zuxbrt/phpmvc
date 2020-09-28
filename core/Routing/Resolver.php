@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Core\Error\ErrorResponse;
 use Exception;
 use ReflectionClass;
 use ReflectionMethod;
@@ -13,7 +12,6 @@ class Resolver
 
     public function __construct()
     {
-        $this->errorHandler = new ErrorResponse();
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Core\Database;
 
 use Config\Config;
-use Core\Error\ErrorResponse;
 use Core\Response;
 use Exception;
 use PDO;
