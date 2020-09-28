@@ -1,15 +1,14 @@
 <?php
 
-use Core\Database\Connection;
-use Core\Response;
+use Core\Database\Mapper;
 
-class Post extends Model
+class Post
 {
-    private $connection;
+    private static $posts_mapper;
 
     public function __construct()
     {
-        $this->connection = Connection::connect();
+        self::$posts_mapper = new Mapper();
     }
 
     /**
@@ -18,22 +17,7 @@ class Post extends Model
      */
     public function get(string $id)
     {
-        // query
-        $sql = 'SELECT * FROM posts WHERE posts.id = '.$id;
-        $post = [];
-        $query = $this->connection->query($sql);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // return response
-        if(!empty($result)){
-            foreach($result as $key => $val){
-                $post[$key] = $val;
-            }
-            return Response::send([$post], 200);
-        } else {
-            return Response::send(null, 404);
-
-        }
+        return self::$posts_mapper->get($id, 'posts');
     }
 
 }
