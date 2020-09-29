@@ -29,22 +29,22 @@ Create .config file in root directory, and configure it following the .config-ex
     │    ├── Helpers                    # helpers with static methods
     │    │      └── Status.php              *** get response message according to HTTP status code  
     │    ├── Routing                    # url routing logic
-    │    │      └── Resolver.php            *** Handles url calls to corresponding controller methods
+    │    │      └── Resolver.php            *** Handles url calls
     │    ├── autoload.php.              *** autoloads projects classes
     │    ├── Config.php                 *** gets parameters from .config file
     │    ├── Controller.php             *** abstract class, in progress
     │    ├── Model.php                  *** abstract class, in progress
-    │    ├── Request.php                *** captures incoming requests, and resolves requested resource via Resolver
-    │    └── Response.php               *** returns json response - with data, message and status code
+    │    ├── Request.php                *** captures incoming requests
+    │    └── Response.php               *** returns json response
     │
     ├── public                      # contains index.php and htaccess
     │    ├── .htaccess                  *** basic htaccess, with RewriteRule for index.php
-    │    └── index.php                  *** calls autoload and intercepts requests with Kernel classs
+    │    └── index.php                  *** calls autoload & kernel
     │
     ├── src                         # contains Controllers, Views and Models
     │    ├── Controllers                # Controllers directory
     │    │      ├── IndexController.php     *** Controller for root url "/"
-    │    │      └── PostController.php      *** Controller for post resource, with get method ( in progress )
+    │    │      └── PostController.php      *** Controller for post resource
     │    ├── Models                     # Models directory
     │    │      └── Post.php                *** Model for Post resource
     │    └── Views                      # Views directory - in progress
