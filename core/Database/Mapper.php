@@ -1,8 +1,8 @@
 <?php 
 
-namespace Core\Database;
+namespace core\Database;
 
-use Core\Response;
+use core\Response;
 use PDO;
 
 class Mapper
@@ -33,7 +33,7 @@ class Mapper
             }
             return Response::send($item, 200);
         } else {
-            return Response::send('Not found', 404);
+            return Response::send('Post not found', 404);
         }
     }
 

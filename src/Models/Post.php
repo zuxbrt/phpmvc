@@ -1,6 +1,6 @@
 <?php
 
-use Core\Database\Mapper;
+use core\Database\Mapper;
 
 class Post
 {

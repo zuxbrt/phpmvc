@@ -3,7 +3,7 @@
 namespace src\Controllers;
 
 use Controller;
-use Core\Response;
+use core\Response;
 use Post;
 
 class PostController extends Controller

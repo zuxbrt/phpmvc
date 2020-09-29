@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Database;
+namespace core\Database;
 
-use Config\Config;
+use core\Config;
 use Core\Response;
 use Exception;
 use PDO;

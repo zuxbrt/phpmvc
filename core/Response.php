@@ -1,8 +1,8 @@
 <?php
 
-namespace Core;
+namespace core;
 
-use Core\Response\Status;
+use core\Response\Status;
 
 class Response
 {

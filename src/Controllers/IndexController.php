@@ -3,7 +3,7 @@
 namespace src\Controllers;
 
 use Controller;
-use Core\Response;
+use core\Response;
 
 class IndexController extends Controller
 {

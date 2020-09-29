@@ -1,6 +1,6 @@
 <?php
 
-namespace Config;
+namespace core;
 
 /**
  * This class is used for retrieving parameters used accross

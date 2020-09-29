@@ -1,6 +1,6 @@
 <?php
 
-use Core\Database\Connection;
+use core\Database\Connection;
 
 abstract class Controller
 {

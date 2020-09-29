@@ -1,8 +1,8 @@
 <?php
 
-use Config\Config;
-use Core\Request;
-use Core\Response;
+use core\Config;
+use core\Request;
+use core\Response;
 
 class Kernel
 {
@@ -33,8 +33,6 @@ class Kernel
         ob_start();
 
         $request = new Request();
-        $response = new Response();
-
 
         // This will send the contents of the output buffer (if any). 
         ob_flush();

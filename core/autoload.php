@@ -8,34 +8,64 @@ class Autoloader
     {   
         spl_autoload_register(function(){
 
-            include '../bootstrap/kernel.php';
+            // get current working directory
+            $public_path = true;
+            $path = getcwd();
+            $path_dirs = explode('/', $path);
+            $total = count($path_dirs);
+            $working_dir = $path_dirs[$total-1];
+            if($working_dir !== 'public'){
+                $public_path = false;
+            }
 
-            include '../core/Config.php';
-            
-            include '../core/Request.php';
-            include '../core/Response.php';
-            include '../core/Controller.php';
-            include '../core/Model.php';
-            
-            include '../core/Database/Connection.php';
-            include '../core/Database/Mapper.php';
+            if(!$public_path){
+                // change working directory to core
+                chdir('./core');
 
-            include '../core/Helpers/Status.php';
-            include '../core/Routing/Resolver.php';
+                // core items for migrations
+                include_once __DIR__.'/Database/Connection.php';
+                include_once __DIR__.'/Database/Mapper.php';
+                include_once __DIR__.'/Database/Manager.php';
+                include_once __DIR__.'/Config.php';
+                
+                // back to root directory
+                chdir('..');
+            } else {
 
-            $paths = ['../src/Controllers', '../src/Models', '../src/Views'];
+                // core items 
+                include_once __DIR__.'/Request.php';
+                include_once __DIR__.'/Response.php';
+                include_once __DIR__.'/Controller.php';
+                include_once __DIR__.'/Model.php';
+                
+                // database
+                include_once __DIR__.'/Database/Connection.php';
+                include_once __DIR__.'/Database/Mapper.php';
+                include_once __DIR__.'/Database/Manager.php';
 
-            foreach($paths as $path){
-                $classes = scandir($path);
-                foreach($classes as $class){
-                    if($class !== '.' && $class !== '..'){
-                        include $path . '/' . $class;
+                include_once __DIR__.'/Helpers/Status.php';
+                include_once __DIR__.'/Routing/Resolver.php';
+
+                include_once '../bootstrap/kernel.php';
+                include_once '../core/Config.php';
+                include_once '../core/Console/Commands.php';
+                
+
+                $paths = ['../src/Controllers', '../src/Models', '../src/Views'];
+
+                foreach($paths as $path){
+                    $classes = scandir($path);
+                    foreach($classes as $class){
+                        if($class !== '.' && $class !== '..'){
+                            include $path . '/' . $class;
+                        }
                     }
                 }
             }
 
         });
     }
+
 }
 
 Autoloader::register();
