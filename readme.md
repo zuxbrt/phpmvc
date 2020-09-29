@@ -52,7 +52,7 @@ Create .config file in root directory, and configure it following the .config-ex
     │
     ├── .config-example             *** application configuration example (database connection)
     ├── .gitignore                  *** ignored files
-    ├── cli                         *** command line interface ( for executing project commands - database operations for now )
+    ├── cli                         *** command line interface (php cli)
     ├── database-config.php         *** array with tables and their columns
     └── README.md
     
