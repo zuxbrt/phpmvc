@@ -13,27 +13,50 @@ Create .config file in root directory, and configure it following the .config-ex
     
     │
     ├── bootstrap                   # kernel class
-    │    └── kernel.php                 *** used for capturing requests
+    │    └── kernel.php                 
     │
     ├── config                      # application configuration - in progress
-    │    └── general.php                *** in progress
+    │    └── container.php   
+    │    └── parameters.php 
+    │    └── services.php              
     │
-    ├── core                        # project core files (database / request / response classes)
-    │    ├── Console                    # Commands are registered here
-    │    │      └── Commands.php              *** runs registered commands  
+    ├── core                        # project core files
+    │    ├── Console                    # commands
+    │    │      └── Commands.php                
     │    ├── Database                   # database related classes
-    │    │      ├── Connection.php            *** Generates PDO Object
-    │    │      ├── Manager.php               *** Used for cli commands
-    │    │      └── Mapper.php                *** Used for CRUD models functionality (in progress)
+    │    │      ├── Instance.php
+    │    │      ├── Manager.php
+    │    │      ├── Mapper.php
+    │    │      └── MySql.php
     │    │
-    │    ├── Helpers                    # helpers with static methods
-    │    │      └── Status.php              *** get response message according to HTTP status code  
+    │    ├── Exceptions                 # exceptions
+    │    │      ├── ContainerException.php
+    │    │      ├── ParameterNotFoundException.php
+    │    │      └── ServiceNotFoundException.php
+    │    │
+    │    ├── Helpers                    # helpers
+    │    │      └── Status.php      
+    │    │
+    │    ├── Interfaces                 # interfaces
+    │    │      ├── Database
+    │    │      │      └── ConnectionInterface.php
+    │    │      ├── Exceptions
+    │    │      │      ├── ContainerExceptionInterface.php
+    │    │      │      └── NotFoundExceptionInterface.php
+    │    │      └── ContainerInterface.php
+    │    │        
+    │    ├── Reference                 # references
+    │    │      ├── AbstractReference.php
+    │    │      ├── ParameterReference.php
+    │    │      └── ServiceReference.php
+    │    │
     │    ├── Routing                    # url routing logic
     │    │      └── Resolver.php            *** Handles url calls
+    │    │
     │    ├── autoload.php.              *** autoloads projects classes
     │    ├── Config.php                 *** gets parameters from .config file
-    │    ├── Controller.php             *** abstract class, in progress
-    │    ├── Model.php                  *** abstract class, in progress
+    │    ├── Container.php              *** gets parameters from .config file
+    │    ├── Controller.php             *** abstract class for controllers
     │    ├── Request.php                *** captures incoming requests
     │    └── Response.php               *** returns json response
     │
@@ -44,7 +67,7 @@ Create .config file in root directory, and configure it following the .config-ex
     ├── src                         # contains Controllers, Views and Models
     │    ├── Controllers                # Controllers directory
     │    │      ├── IndexController.php     *** Controller for root url "/"
-    │    │      └── PostController.php      *** Controller for post resource
+    │    │      └── PostController.php      *** Controller for "post" resource
     │    ├── Models                     # Models directory
     │    │      └── Post.php                *** Model for Post resource
     │    └── Views                      # Views directory - in progress
