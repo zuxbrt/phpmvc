@@ -22,8 +22,12 @@ class Autoloader
                 // change working directory to core
                 chdir('./core');
 
+                // interfaces
+                include_once __DIR__.'/Interfaces/Database/ConnectionInterface.php';
+
                 // core items for migrations
-                include_once __DIR__.'/Database/Connection.php';
+                include_once __DIR__.'/Database/MySql.php';
+                include_once __DIR__.'/Database/Instance.php';
                 include_once __DIR__.'/Database/Mapper.php';
                 include_once __DIR__.'/Database/Manager.php';
                 include_once __DIR__.'/Config.php';
@@ -36,12 +40,19 @@ class Autoloader
                 include_once __DIR__.'/Request.php';
                 include_once __DIR__.'/Response.php';
                 include_once __DIR__.'/Controller.php';
-                include_once __DIR__.'/Model.php';
+                
+                // interfaces
+                include_once __DIR__.'/Interfaces/Database/ConnectionInterface.php';
+                include_once __DIR__.'/Interfaces/ContainerInterface.php';
+
+                // containter
+                include_once __DIR__.'/Container.php';
                 
                 // database
-                include_once __DIR__.'/Database/Connection.php';
+                include_once __DIR__.'/Database/Instance.php';
                 include_once __DIR__.'/Database/Mapper.php';
                 include_once __DIR__.'/Database/Manager.php';
+                include_once __DIR__.'/Database/MySql.php';
 
                 include_once __DIR__.'/Helpers/Status.php';
                 include_once __DIR__.'/Routing/Resolver.php';

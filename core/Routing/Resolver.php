@@ -3,6 +3,7 @@
 namespace core;
 
 use Exception;
+use JsonException;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -17,7 +18,7 @@ class Resolver
     /**
      * Get requested resource from url.
      */
-    public function resolve(string $uri, string $method, $arguments)
+    public function resolve(string $uri, string $request_method)
     {
         $requested_resource = $this->getResourceFromUri($uri);
         if($requested_resource){
@@ -25,29 +26,30 @@ class Resolver
             $controller = $this->findControllerFromResource($requested_resource);
 
             if($controller){
-                $method     = $this->getControllerMethod($uri, $requested_resource);
-                if($method){
+                $controller_method     = $this->getControllerMethod($uri, $requested_resource, $request_method);
+                if($controller_method){
 
                     $controller         = $controller->newInstanceWithoutConstructor();
-                    $method_exists      = method_exists($controller, $method);
+                    $method_exists      = method_exists($controller, $controller_method);
 
                     if($method_exists){
-                        $reflectionMethod   = new ReflectionMethod($controller, $method);
+                        $reflectionMethod   = new ReflectionMethod($controller, $controller_method);
                         $has_parameters     = false;
 
                         $reflection_method_parameters = $reflectionMethod->getParameters();
                         if(!empty($reflection_method_parameters)){
                             $has_parameters = true;
                         }
+                        
                         // extract parameters
-                        $method_parameters = $this->getParameters($reflection_method_parameters, $uri, $arguments);
+                        $method_parameters = $this->getParameters($reflection_method_parameters, $uri, $request_method);
 
                         if($has_parameters){
-                            return $controller->$method($method_parameters);
+                            return $controller->$controller_method($method_parameters);
                         }
-                        return $controller->$method();
+                        return $controller->$controller_method();
                     } else {
-                        return Response::send('Method ' . $method . '() not found in ' . get_class($controller) , 400);
+                        return Response::send('Method ' . $controller_method . '() not found in ' . get_class($controller) , 400);
                         // return $this->errorHandler->returnMessage('error', 'Method *' . $method . '* not found in ' . get_class($controller));
                     }
                 }
@@ -135,7 +137,7 @@ class Resolver
         if($uri == '/'){
             return 'index';
         }
-        
+
         $url_string_parts = explode('/', $uri);
         $url_parts = [];
         foreach($url_string_parts as $string_part){
@@ -172,7 +174,7 @@ class Resolver
      * @param $reflection_method_parameters
      * @param string $uri
      */
-    protected function getParameters($reflection_method_parameters, string $uri, $arguments)
+    protected function getParameters($reflection_method_parameters, string $uri, string $request_method)
     {
         $param_names = [];
        
@@ -180,32 +182,100 @@ class Resolver
             array_push($param_names, $arg->name);
         }
 
-        if(!empty($param_names)){
-            $method_param_pos = strpos($uri, '?');
-            $url = substr($uri, $method_param_pos);
-            $separated = explode('?', $url);
+        switch ($request_method) {
+            case 'POST':
+                // decode json
+                $data = null;
+                $raw_data = file_get_contents('php://input');
+                $data = json_decode($raw_data, true);
 
-            if(!$method_param_pos){
-                return Response::send('Missing ? argument for parameter in url: ' .  $uri, 400);
-                // return $this->errorHandler->returnMessage('error', '' . $uri);
-            }
+                // check is valid
+                $is_valid_json =  ((is_string($raw_data) && (is_object(json_decode($raw_data)) ||
+                    is_array(json_decode($raw_data))))) ? true : false;
 
-            $param_val = isset($separated[1]) ? $separated[1] : null;
+                // make sure it's not empty
+                if($is_valid_json){
+                    if(count($data) < 1){
+                        return Response::send('Empty JSON string', 400);
+                    }
+                }
 
-            if(count($separated) < 2){
-                return Response::send('Missing parameter for url:' .  $uri, 400);
-                //return $this->errorHandler->returnMessage('error', ' ' . $uri);
-            }
-            
-            if(!$param_val){
-                return Response::send('Bad parameter in url: ' .  $uri, 400);
-                // return $this->errorHandler->returnMessage('error', '' . $uri);
-            }
-            if(!is_numeric($param_val)){
-                return Response::send('Non numeric value as parameter: ' . $param_names[0] . ' in url - ' . $uri, 400);
-                // return $this->errorHandler->returnMessage('error');
-            }
-            return $param_val;
+                // return proper response
+                if(!$is_valid_json){
+                    return Response::send('Invalid JSON string', 400);
+                }
+                return $data;
+
+            case 'GET':
+
+                if(!empty($param_names)){
+                    $method_param_pos = strpos($uri, '?');
+                    $url = substr($uri, $method_param_pos);
+                    $separated = explode('?', $url);
+        
+                    if(!$method_param_pos){
+                        return Response::send('Missing ? argument for parameter in url: ' .  $uri, 400);
+                        // return $this->errorHandler->returnMessage('error', '' . $uri);
+                    }
+        
+                    $param_val = isset($separated[1]) ? $separated[1] : null;
+        
+                    if(count($separated) < 2){
+                        return Response::send('Missing parameter for url:' .  $uri, 400);
+                        //return $this->errorHandler->returnMessage('error', ' ' . $uri);
+                    }
+                    
+                    if(!$param_val){
+                        return Response::send('Bad parameter in url: ' .  $uri, 400);
+                        // return $this->errorHandler->returnMessage('error', '' . $uri);
+                    }
+                    if(!is_numeric($param_val)){
+                        return Response::send('Non numeric value as parameter: ' . $param_names[0] . ' in url - ' . $uri, 400);
+                        // return $this->errorHandler->returnMessage('error');
+                    }
+                    return $param_val;
+                }
+
+                break;
+
+            case 'PUT':
+                return Response::send('Under construction.', 504);
+                break;
+
+            case 'DELETE':
+
+                if(!empty($param_names)){
+                    $method_param_pos = strpos($uri, '?');
+                    $url = substr($uri, $method_param_pos);
+                    $separated = explode('?', $url);
+        
+                    if(!$method_param_pos){
+                        return Response::send('Missing ? argument for parameter in url: ' .  $uri, 400);
+                        // return $this->errorHandler->returnMessage('error', '' . $uri);
+                    }
+        
+                    $param_val = isset($separated[1]) ? $separated[1] : null;
+        
+                    if(count($separated) < 2){
+                        return Response::send('Missing parameter for url:' .  $uri, 400);
+                        //return $this->errorHandler->returnMessage('error', ' ' . $uri);
+                    }
+                    
+                    if(!$param_val){
+                        return Response::send('Bad parameter in url: ' .  $uri, 400);
+                        // return $this->errorHandler->returnMessage('error', '' . $uri);
+                    }
+                    if(!is_numeric($param_val)){
+                        return Response::send('Non numeric value as parameter: ' . $param_names[0] . ' in url - ' . $uri, 400);
+                        // return $this->errorHandler->returnMessage('error');
+                    }
+                    return $param_val;
+                }
+                break;
+
+            default:
+            return Response::send('Method Not Allowed' .  $uri, 405);
+                break;
         }
     }
 

@@ -33,10 +33,11 @@ class Kernel
         ob_start();
 
         $request = new Request();
+        $response = $request->capture();
 
         // This will send the contents of the output buffer (if any). 
         ob_flush();
-        return $request->capture();
+        return $response;
     }
 }
 

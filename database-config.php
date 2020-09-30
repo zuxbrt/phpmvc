@@ -6,33 +6,33 @@ return [
             [
                 'name' => 'id',
                 'type' => 'int(11)',
-                'is_auto_increment' => false,
+                'primary_key' => true,
                 'attributes' => '',
-                'is_null' =>  'NOT NULL',
+                'is_null' =>  false,
                 'default' => ''
             ],
             [
                 'name' => 'title',
                 'type' => 'varchar(255)',
-                'is_auto_increment' => false,
+                'primary_key' => false,
                 'attributes' => '',
-                'is_null' =>  'NOT NULL',
+                'is_null' =>  false,
                 'default' => ''
             ],
             [
                 'name' => 'date',
-                'type' => 'timestamp(6)',
-                'is_auto_increment' => false,
+                'type' => 'TIMESTAMP',
+                'primary_key' => false,
                 'attributes' => '',
-                'is_null' =>  'NOT NULL',
-                'default' => ''
+                'is_null' =>  false,
+                'default' => 'CURRENT_TIMESTAMP'
             ],
             [
                 'name' => 'text',
                 'type' => 'varchar(255)',
-                'is_auto_increment' => false,
+                'primary_key' => false,
                 'attributes' => '',
-                'is_null' =>  'NOT NULL',
+                'is_null' =>  false,
                 'default' => ''
             ]
         ]

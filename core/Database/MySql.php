@@ -3,11 +3,12 @@
 namespace core\Database;
 
 use core\Config;
+use core\Interfaces\Database\ConnectionInterface;
 use Core\Response;
 use Exception;
 use PDO;
 
-abstract class Connection
+class MySql implements ConnectionInterface
 {
     private static $connectionType;
     private static $host;
@@ -22,11 +23,9 @@ abstract class Connection
 
     /**
      * Connect to database.
-     * Get database connection parameters from configuration file.
-     * Defined connection type for mysql for now.
      * TODO sqlite (and others)
      */
-    public static function connect()
+    public function connect()
     {
         $config = new Config();
 
@@ -52,5 +51,10 @@ abstract class Connection
 
         }
         return self::$_connection;
+    }
+
+    public function query($query)
+    {
+        
     }
 }

@@ -1,14 +1,26 @@
 <?php
 
-use core\Database\Connection;
+namespace core;
 
 abstract class Controller
 {
-    public $errorHandler;
+    /**
+     * Get resource.
+     */
+    public function get($id){}
 
-    public function __construct()
-    {
-    }
+    /**
+     * Create resource.
+     */
+    public function create(array $data){}
+
+    /**
+     * Update resource.
+     */
+    public function update(int $id, array $data){}
+
+    /**
+     * Delete resource.
+     */
+    public function delete(int $id){}
 }
-
-?>

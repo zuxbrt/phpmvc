@@ -4,11 +4,15 @@ use core\Database\Mapper;
 
 class Post
 {
-    private static $posts_mapper;
+    private $posts_mapper;
+    private $post_data;
 
-    public function __construct()
+    public function __construct(array $post_data = null)
     {
-        self::$posts_mapper = new Mapper();
+        $this->posts_mapper = new Mapper('posts');
+        if($post_data){
+            $this->post_data = $post_data;
+        }
     }
 
     /**
@@ -17,7 +21,23 @@ class Post
      */
     public function get(string $id)
     {
-        return self::$posts_mapper->get($id, 'posts');
+        return $this->posts_mapper->get($id);
+    }
+
+    /**
+     * Create new post.
+     */
+    public function create($post_data)
+    {
+        return $this->posts_mapper->create($post_data);
+    }
+
+    /**
+     * Delete post by id.
+     */
+    public function delete($id)
+    {
+        return $this->posts_mapper->delete($id);
     }
 
 }
