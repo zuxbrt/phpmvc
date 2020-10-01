@@ -48,9 +48,16 @@ class PostController extends Controller
     /**
      * Update post.
      */
-    public function update($id, array $data)
+    public function update(array $data)
     {
-        return Response::send('todo', 501);
+        $post = new Post();
+        $action = $post->update($data);
+        if(empty($action)){
+            return Response::send('Success', 200);
+        } else {
+            return Response::send($action, 400);
+        }
+
     }
 
     /**
@@ -64,6 +71,20 @@ class PostController extends Controller
             return Response::send('Success', 200);
         } else {
             return Response::send($action, 400);
+        }
+    }
+
+    /**
+     * Get all posts.
+     */
+    public function getAll()
+    {
+        $post = new Post();
+        $posts = $post->getAll();
+        if(is_array($posts)){
+            return Response::send($posts, 200);
+        } else {
+            return Response::send(null, 404);
         }
     }
 }

@@ -17,7 +17,7 @@ abstract class Controller
     /**
      * Update resource.
      */
-    public function update(int $id, array $data){}
+    public function update(array $data){}
 
     /**
      * Delete resource.

@@ -7,12 +7,9 @@ class Post
     private $posts_mapper;
     private $post_data;
 
-    public function __construct(array $post_data = null)
+    public function __construct()
     {
         $this->posts_mapper = new Mapper('posts');
-        if($post_data){
-            $this->post_data = $post_data;
-        }
     }
 
     /**
@@ -33,11 +30,28 @@ class Post
     }
 
     /**
+     * Update post.
+     */
+    public function update($post_data)
+    {
+        return $this->posts_mapper->update($post_data);
+    }
+
+    /**
      * Delete post by id.
      */
     public function delete($id)
     {
         return $this->posts_mapper->delete($id);
+    }
+
+
+    /**
+     * Get all posts.
+     */
+    public function getAll()
+    {
+        return $this->posts_mapper->getAll();
     }
 
 }

@@ -173,6 +173,8 @@ class Resolver
      * Get parameters for method (if it has any)
      * @param $reflection_method_parameters
      * @param string $uri
+     * 
+     * // TODO REFACTOR
      */
     protected function getParameters($reflection_method_parameters, string $uri, string $request_method)
     {
@@ -239,7 +241,27 @@ class Resolver
                 break;
 
             case 'PUT':
-                return Response::send('Under construction.', 504);
+                // decode json
+                $data = null;
+                $raw_data = file_get_contents('php://input');
+                $data = json_decode($raw_data, true);
+
+                // check is valid
+                $is_valid_json =  ((is_string($raw_data) && (is_object(json_decode($raw_data)) ||
+                    is_array(json_decode($raw_data))))) ? true : false;
+
+                // make sure it's not empty
+                if($is_valid_json){
+                    if(count($data) < 1){
+                        return Response::send('Empty JSON string', 400);
+                    }
+                }
+
+                // return proper response
+                if(!$is_valid_json){
+                    return Response::send('Invalid JSON string', 400);
+                }
+                return $data;
                 break;
 
             case 'DELETE':

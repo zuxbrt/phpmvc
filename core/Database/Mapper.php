@@ -85,12 +85,50 @@ class Mapper
     }
 
     /**
-     * Update record in database by id. // TODO
+     * Update record in database by id.
      */
-    public function update(int $id, array $data){}
+    public function update(array $data)
+    {
+        if(isset($data['id'])){
+            $item_id = $data['id'];
+
+            // check if exists
+            $item = $this->get($data['id']);
+            if(is_array($item)){
+
+                $update_items = [];
+
+                // form data for query
+                foreach($data as $column => $column_value){
+                    if($column !== 'id'){
+                        $formatted = preg_replace('/\s+/', '', $column_value);
+
+                        if($formatted != ''){
+                            $field_value = $column."='".$column_value."'"; 
+                            array_push($update_items, $field_value);
+                        }
+                    }
+                }
+
+                $sql = 'UPDATE '.$this->table.' SET ' . implode(', ', $update_items). ' WHERE id='.$item_id;
+
+                $statement = $this->connection->prepare($sql);
+                
+                try {
+                    $statement->execute();
+                } catch (PDOException $pdoex) {
+                    return $pdoex->getMessage();
+                }
+        
+
+            } else {
+                return 'Item not found.';
+            }
+        }
+    }
 
     /**
-     * Delete record from database by id. // TODO
+     * Delete record from database by id.
      */
     public function delete(int $id)
     {
@@ -115,6 +153,26 @@ class Mapper
 
     }
 
+    /**
+     * Get all resource records.
+     */
+    public function getAll()
+    {
+        $sql = 'SELECT * FROM '.$this->table;
+        $items = [];
+        $query = $this->connection->query($sql);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        // return response
+        if(!empty($result)){
+            foreach($result as $key => $val){
+                array_push($items, $val);
+            }
+            return $items;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Count of total records for table.

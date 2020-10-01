@@ -55,7 +55,7 @@ Create .config file in root directory, and configure it following the .config-ex
     │    │
     │    ├── autoload.php.              *** autoloads projects classes
     │    ├── Config.php                 *** gets parameters from .config file
-    │    ├── Container.php              *** gets parameters from .config file
+    │    ├── Container.php              *** DI
     │    ├── Controller.php             *** abstract class for controllers
     │    ├── Request.php                *** captures incoming requests
     │    └── Response.php               *** returns json response
