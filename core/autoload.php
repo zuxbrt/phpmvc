@@ -40,6 +40,7 @@ class Autoloader
                 include_once __DIR__.'/Request.php';
                 include_once __DIR__.'/Response.php';
                 include_once __DIR__.'/Controller.php';
+                include_once __DIR__.'/Template.php';
                 
                 // interfaces
                 include_once __DIR__.'/Interfaces/Database/ConnectionInterface.php';
@@ -62,13 +63,16 @@ class Autoloader
                 include_once '../core/Console/Commands.php';
                 
 
-                $paths = ['../src/Controllers', '../src/Models', '../src/Views'];
+                $paths = ['../src/Controllers', '../src/Models'];
 
                 foreach($paths as $path){
                     $classes = scandir($path);
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
-                            include $path . '/' . $class;
+                            if(!is_dir($path . '/' . $class)){
+                                include $path . '/' . $class;
+                            }
+                            
                         }
                     }
                 }
