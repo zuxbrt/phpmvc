@@ -9,6 +9,9 @@ Create .config file in root directory, and configure it following the .config-ex
 ### cli usage:
 > php cli --help
 
+### Postman docs:
+https://documenter.getpostman.com/view/4336607/TVRdBBuz
+
 ### Structure
     
     │
