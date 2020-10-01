@@ -11,6 +11,8 @@ class Resolver
 {
     public $errorHandler;
 
+    private $auth_routes = ['login', 'logout'];
+
     public function __construct()
     {
     }
@@ -22,6 +24,23 @@ class Resolver
     {
         $requested_resource = $this->getResourceFromUri($uri);
         if($requested_resource){
+
+            if(in_array($requested_resource, $this->auth_routes)){
+                switch ($requested_resource) {
+                    case 'login':
+                        return Auth::login($this->getCredentials());
+                        break;
+
+                    case 'logout':
+                        return Auth::logout();
+                        break;
+
+                    default:
+                        return Response::send('Method Not Allowed' .  $uri, 405);
+                        break;
+                }
+            }
+
 
             $controller = $this->findControllerFromResource($requested_resource);
 
@@ -112,8 +131,7 @@ class Resolver
                         if($requested_resource === $resource_name){
                             $class_with_path = "src\Controllers\ ${filename}";
                             $class_with_path = str_replace(' ', '', $class_with_path);
-                            $class = new ReflectionClass($class_with_path);
-                            return $class;
+                            return new ReflectionClass($class_with_path);
                         }
                     }
                 }
@@ -169,6 +187,35 @@ class Resolver
         }
     }
 
+    /**
+     * Get credentials needed for user login.
+     */
+    protected function getCredentials()
+    {
+        // decode json
+        $data = null;
+        $raw_data = file_get_contents('php://input');
+        $data = json_decode($raw_data, true);
+
+        // check is valid
+        $is_valid_json =  ((is_string($raw_data) && (is_object(json_decode($raw_data)) ||
+            is_array(json_decode($raw_data))))) ? true : false;
+
+        // make sure it's not empty
+        if($is_valid_json){
+            if(count($data) < 1){
+                return Response::send('Empty JSON string', 400);
+            }
+        }
+
+        // return proper response
+        if(!$is_valid_json){
+            return Response::send('Invalid JSON string', 400);
+        }
+        return $data;
+    }
+
+    
     /**
      * Get parameters for method (if it has any)
      * @param $reflection_method_parameters

@@ -24,7 +24,6 @@ class Request {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $acceptable_headers = $_SERVER['HTTP_ACCEPT'];
         $accepted_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-        $accepted_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
         $user_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : null;
 
 

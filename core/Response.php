@@ -24,4 +24,8 @@ class Response
             'data' => $data
         ]);
     }
+
+    public static function setHeader(string $header) {
+        header($header);
+    }
 }
