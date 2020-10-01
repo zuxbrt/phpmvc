@@ -30,6 +30,7 @@ class Manager
      */
     public function setupDatabase()
     {
+        $messages = [];
         foreach($this->db_structure as $key => $value){
             switch ($key) {
                 case 'tables':
@@ -47,7 +48,7 @@ class Manager
                         $this->create_table_fields($table_fields);
 
                         // execute query
-                        return $this->run_query();
+                        array_push($messages, $this->run_query());
                     }
                     break;
 
@@ -56,6 +57,7 @@ class Manager
                     break;
             }
         }
+        return $messages;
     }
 
     /**
@@ -65,13 +67,15 @@ class Manager
     {
         // get tables
         $query = $this->connection->query("SHOW TABLES");
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
 
         // return response
-        if(!empty($result)){
-            foreach($result as $table){
-                $this->query_string = "DROP TABLE " . $table;
-                $this->run_query();
+        if(!empty($results)){
+            foreach($results as $result){
+                foreach($result as $table_name){
+                    $this->query_string = "DROP TABLE " . $table_name;
+                    $this->run_query();
+                }
             }
         } else {
             return 'No tables in database.';

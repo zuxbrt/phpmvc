@@ -94,7 +94,7 @@ class Commands
                 }
 
                 if(is_string($val)){
-                    echo $val;
+                    echo $val.PHP_EOL;
                 } else {
                     if(is_array($val)){
                         foreach($val as $comm => $info){

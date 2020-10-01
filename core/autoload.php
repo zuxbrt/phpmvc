@@ -37,6 +37,7 @@ class Autoloader
             } else {
 
                 // core items 
+                include_once __DIR__.'/Auth.php';
                 include_once __DIR__.'/Request.php';
                 include_once __DIR__.'/Response.php';
                 include_once __DIR__.'/Controller.php';
@@ -58,9 +59,9 @@ class Autoloader
                 include_once __DIR__.'/Helpers/Status.php';
                 include_once __DIR__.'/Routing/Resolver.php';
 
-                include_once '../bootstrap/kernel.php';
-                include_once '../core/Config.php';
-                include_once '../core/Console/Commands.php';
+                include_once __DIR__.'/../bootstrap/kernel.php';
+                include_once __DIR__.'/../core/Config.php';
+                include_once __DIR__.'/../core/Console/Commands.php';
                 
 
                 $paths = ['../src/Controllers', '../src/Models'];
@@ -70,7 +71,7 @@ class Autoloader
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
                             if(!is_dir($path . '/' . $class)){
-                                include $path . '/' . $class;
+                                include __DIR__.'/' . $path . '/' . $class;
                             }
                             
                         }

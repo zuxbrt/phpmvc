@@ -35,6 +35,40 @@ return [
                 'is_null' =>  false,
                 'default' => ''
             ]
+        ], 
+        'users' => [
+            [
+                'name' => 'id',
+                'type' => 'int(11)',
+                'primary_key' => true,
+                'attributes' => '',
+                'is_null' =>  false,
+                'default' => ''
+            ],
+            [
+                'name' => 'username',
+                'type' => 'varchar(255)',
+                'primary_key' => false,
+                'attributes' => '',
+                'is_null' =>  false,
+                'default' => ''
+            ],
+            [
+                'name' => 'password',
+                'type' => 'varchar(255)',
+                'primary_key' => false,
+                'attributes' => '',
+                'is_null' =>  false,
+                'default' => ''
+            ],
+            [
+                'name' => 'email',
+                'type' => 'varchar(255)',
+                'primary_key' => false,
+                'attributes' => '',
+                'is_null' =>  false,
+                'default' => ''
+            ]
         ]
     ],
 ];

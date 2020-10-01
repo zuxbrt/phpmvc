@@ -2,20 +2,21 @@
 
 namespace core;
 
-class Request
-{
+class Request {
+
     protected $resolver;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->resolver = new Resolver();
     }
 
     /**
      * Capture request to server and extract parameters.
      */
-    public function capture()
-    {
+    public function capture() {
+
+        Auth::check();
+
         $requested_url = $_SERVER['REQUEST_URI'];
         $request_method = $_SERVER['REQUEST_METHOD'];
         //$request_parameters = $_SERVER['argv'];
