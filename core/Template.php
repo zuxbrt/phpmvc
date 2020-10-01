@@ -45,6 +45,9 @@ class Template {
 	}
 
 	static function includeFiles($file) {
+		if(!file_exists(ROOT_PATH.$file)){
+			return Response::send("View {$file} not found", 500);
+		}
 		$code = file_get_contents(ROOT_PATH.$file);
 		preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
 		foreach ($matches as $value) {

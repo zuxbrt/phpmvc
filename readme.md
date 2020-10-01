@@ -61,7 +61,9 @@ https://documenter.getpostman.com/view/4336607/TVRdBBuz
     │    ├── Container.php              *** DI
     │    ├── Controller.php             *** abstract class for controllers
     │    ├── Request.php                *** captures incoming requests
-    │    └── Response.php               *** returns json response
+    │    ├── Response.php               *** returns json response
+    │    └── Template.php               *** templating engine for returning html
+    │
     │
     ├── public                      # contains index.php and htaccess
     │    ├── .htaccess                  *** basic htaccess, with RewriteRule for index.php
@@ -73,8 +75,10 @@ https://documenter.getpostman.com/view/4336607/TVRdBBuz
     │    │      └── PostController.php      *** Controller for "post" resource
     │    ├── Models                     # Models directory
     │    │      └── Post.php                *** Model for Post resource
-    │    └── Views                      # Views directory - in progress
-    │           └── ExampleView.php         *** in progress
+    │    └── Views                      # Views directory
+    │           ├── Cache                   # cached views
+    │           ├── index.html              *** view for index
+    │           └── layout.html             *** html layout
     │
     ├── .config-example             *** application configuration example (database connection)
     ├── .gitignore                  *** ignored files
