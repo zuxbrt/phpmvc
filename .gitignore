@@ -2,3 +2,4 @@
 .config
 src/Views/cache/*
 *.db
+sqlite.db
