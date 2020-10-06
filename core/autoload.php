@@ -69,14 +69,13 @@ class Autoloader
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
                             if(!is_dir($path . '/' . $class)){
-                                include $path . '/' . $class;
+                                include __DIR__ . $path . '/' . $class;
                             }
                             
                         }
                     }
                 }
             }
-            die(print_r(spl_classes()));
         });
     }
 
