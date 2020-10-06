@@ -62,7 +62,7 @@ class Autoloader
                 include_once '../core/Console/Commands.php';
                 
 
-                $paths = [__DIR__.'../src/Controllers', __DIR__.'../src/Models'];
+                $paths = ['../src/Controllers', '../src/Models'];
 
                 foreach($paths as $path){
                     $classes = scandir($path);
