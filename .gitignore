@@ -1,3 +1,4 @@
 
 .config
 src/Views/cache/*
+*.db
