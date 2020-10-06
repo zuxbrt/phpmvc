@@ -69,7 +69,7 @@ class Autoloader
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
                             if(!is_dir($path . '/' . $class)){
-                                include __DIR__ . $path . '/' . $class;
+                                include $path . '/' . $class;
                             }
                             
                         }
