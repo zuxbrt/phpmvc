@@ -1,1 +1,1 @@
-web: vendor/bin/phpmvc public/
+web: vendor/bin/safe-sierra-43174 public/
