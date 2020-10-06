@@ -1,0 +1,13 @@
+{
+    "name": "zuxbrt/phpmvc",
+    "description": "PHP MVC app from scratch.",
+    "type": "project",
+    "license": "none",
+    "authors": [
+        {
+            "name": "zuxbrt",
+            "email": "zmuhovic97@gmail.com"
+        }
+    ],
+    "require": {}
+}
