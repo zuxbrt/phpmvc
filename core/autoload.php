@@ -35,8 +35,6 @@ class Autoloader
                 // back to root directory
                 chdir('..');
             } else {
-                die(print_r([__DIR__]));
-
                 // core items 
                 include_once __DIR__.'/Request.php';
                 include_once __DIR__.'/Response.php';
@@ -68,6 +66,7 @@ class Autoloader
 
                 foreach($paths as $path){
                     $classes = scandir($path);
+                    die(print_r[$classes]);
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
                             if(!is_dir($path . '/' . $class)){
