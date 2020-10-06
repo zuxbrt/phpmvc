@@ -66,7 +66,7 @@ class Autoloader
 
                 foreach($paths as $path){
                     $classes = scandir($path);
-                    die(print_r[$classes]);
+                    die(print_r([$classes]));
                     foreach($classes as $class){
                         if($class !== '.' && $class !== '..'){
                             if(!is_dir($path . '/' . $class)){
