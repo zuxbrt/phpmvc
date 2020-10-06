@@ -27,6 +27,7 @@ class Autoloader
 
                 // core items for migrations
                 include_once __DIR__.'/Database/MySql.php';
+                include_once __DIR__.'/Database/SQLite.php';
                 include_once __DIR__.'/Database/Instance.php';
                 include_once __DIR__.'/Database/Mapper.php';
                 include_once __DIR__.'/Database/Manager.php';
@@ -55,6 +56,7 @@ class Autoloader
                 include_once __DIR__.'/Database/Mapper.php';
                 include_once __DIR__.'/Database/Manager.php';
                 include_once __DIR__.'/Database/MySql.php';
+                include_once __DIR__.'/Database/SQLite.php';
 
                 include_once __DIR__.'/Helpers/Status.php';
                 include_once __DIR__.'/Routing/Resolver.php';

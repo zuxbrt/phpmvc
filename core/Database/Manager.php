@@ -18,8 +18,22 @@ class Manager
      */
     public function __construct()
     {
-        $connection = new MySql();
-        $this->connection = $connection->connect();
+        $config = new Config();
+        $dbtype = $config->getDBConf('DATABASE_CONNECTION');
+        switch ($dbtype) {
+            case 'mysql':
+                $connection = new MySql();
+                $this->connection = $connection->connect();
+                break;
+            case 'sqlite':
+                $connection = new SQLite();
+                $this->connection = $connection->connect();
+                break;
+            default:
+                echo 'Unsupported database type '. $dbtype.PHP_EOL;
+                return;
+                break;
+        }
         if(file_exists('database-config.php')){
             $this->db_structure = include('database-config.php');
         }
