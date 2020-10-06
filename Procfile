@@ -1,1 +1,1 @@
-web: vendor/bin/safe-sierra-43174 public/
+web: vendor/bin/heroku-php-apache2 public/
