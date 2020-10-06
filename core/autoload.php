@@ -35,6 +35,7 @@ class Autoloader
                 // back to root directory
                 chdir('..');
             } else {
+                die(print_r([__DIR__]));
 
                 // core items 
                 include_once __DIR__.'/Request.php';
