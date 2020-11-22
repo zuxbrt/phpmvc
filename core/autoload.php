@@ -35,7 +35,6 @@ class Autoloader
                 // back to root directory
                 chdir('..');
             } else {
-
                 // core items 
                 include_once __DIR__.'/Request.php';
                 include_once __DIR__.'/Response.php';
@@ -77,7 +76,6 @@ class Autoloader
                     }
                 }
             }
-
         });
     }
 
