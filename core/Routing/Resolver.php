@@ -97,7 +97,7 @@ class Resolver
      */
     protected function findControllerFromResource(string $requested_resource)
     {
-        $controllers = scandir('../src/controllers');
+        $controllers = scandir('../src/Controllers');
 
         if(count($controllers) > 0){
             foreach($controllers as $controller){
